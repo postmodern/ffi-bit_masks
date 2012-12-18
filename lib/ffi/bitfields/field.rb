@@ -9,6 +9,7 @@ module FFI
       #
       # @return [Hash{Symbol => Integer}]
       #   The mapping of bit-fields to bitmasks.
+      #
       attr_reader :fields
 
       #
@@ -117,7 +118,7 @@ module FFI
         bitfield = {}
 
         @fields.each do |name,bitmask|
-          bitfield[name] |= ((value & bitmask) == bitmask)
+          bitfield[name] ||= ((value & bitmask) == bitmask)
         end
 
         return bitfield
