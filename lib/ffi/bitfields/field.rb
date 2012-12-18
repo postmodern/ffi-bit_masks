@@ -5,18 +5,13 @@ module FFI
       include DataConverter
 
       #
-      # @param [Array<(Symbol, Integer)>] fields
+      # @param [Hash{Symbol => Integer}] fields
       #
       def initialize(fields)
-        @fields   = []
-        @bitmasks = {}
+        @fields   = fields.keys
 
-        fields.each_slice(2) do |field,bitmask|
-          @fields << field
-          @bitmasks[field] = bitmask
-        end
-
-        @bitfields = @bitmasks.invert
+        @bitmasks  = fields
+        @bitfields = fields.invert
       end
 
       #

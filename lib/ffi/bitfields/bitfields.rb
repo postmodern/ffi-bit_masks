@@ -7,7 +7,7 @@ module FFI
     #
     # @param [Symbol] name
     #
-    # @param [Array<(Symbol, Integer)>] fields
+    # @param [Hash{Symbol => Integer}] fields
     #
     # @return [Field]
     #   The new bit-field.
