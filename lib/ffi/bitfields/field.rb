@@ -4,16 +4,10 @@ module FFI
 
       include DataConverter
 
-      attr_reader :tag
-
       #
       # @param [Array<(Symbol, Integer)>] fields
       #
-      # @param [Symbol] tag
-      #
-      def initialize(fields,tag=nil)
-        @tag = tag
-
+      def initialize(fields)
         @fields   = []
         @bitmasks = {}
 
