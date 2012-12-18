@@ -5,30 +5,55 @@ module FFI
       include DataConverter
 
       #
+      # Fields of the bit-field
+      #
+      # @return [Hash{Symbol => Integer}]
+      #   The mapping of bit-fields to bitmasks.
+      attr_reader :fields
+
+      #
+      # The bitmasks of the bit-field
+      #
+      # @return [Hash{Integer => Symbol}]
+      #   The mapping of bitmasks to bit-fields.
+      #   
+      attr_reader :bitmasks
+
+      #
+      # The underlying native type.
+      #
+      # @return [FFI::Type]
+      #   The FFI primitive.
+      #
+      attr_reader :native_type
+
+      #
       # @param [Hash{Symbol => Integer}] fields
       #
-      def initialize(fields)
-        @fields   = fields.keys
-
-        @bitmasks  = fields
-        @bitfields = fields.invert
+      # @param [Symbol] type
+      #   The underlying type.
+      #
+      def initialize(fields,type)
+        @fields      = fields
+        @bitmasks    = fields.invert
+        @native_type = FFI.find_type(type)
       end
 
       #
       # @return [Array<Symbol>]
       #
       def symbols
-        @fields
+        @fields.keys
       end
 
       #
       # @return [Hash{Symbol => Integer}]
       #
       def symbol_map
-        @bitmasks
+        @fields
       end
 
-      alias to_h symbol_map
+      alias to_h    symbol_map
       alias to_hash symbol_map
 
       #
@@ -46,21 +71,12 @@ module FFI
       #
       def [](query)
         case query
-        when Symbol
-          @bitmasks[query]
-        when Integer
-          @bitfields[query]
+        when Symbol  then @fields[query]
+        when Integer then @bitmasks[query]
         end
       end
 
       alias find []
-
-      #
-      # Underlying type.
-      #
-      # @return [FFI::Type::UINT]
-      #
-      def native_type; Type::UINT; end
 
       #
       # @param [Hash, #to_int] value
@@ -78,7 +94,7 @@ module FFI
 
           value.each do |field,value|
             if value
-              uint |= @bitmasks[field]
+              uint |= @fields[field]
             end
           end
 
@@ -100,8 +116,8 @@ module FFI
       def from_native(value,ctx=nil)
         bitfield = {}
 
-        @bitmasks.each do |name,bitmask|
-          bitfield[name] |= ((value & bitmask) == value)
+        @fields.each do |name,bitmask|
+          bitfield[name] |= ((value & bitmask) == bitmask)
         end
 
         return bitfield
