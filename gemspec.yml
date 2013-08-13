@@ -1,4 +1,4 @@
-name: ffi-bitfields
+name: ffi-bit_fields
 summary: Adds support bit-wise fields to FFI.
 description:
   FFI plugin which adds support for bit-wise fields (or flags) to FFI.
@@ -6,7 +6,7 @@ description:
 license: MIT
 authors: Postmodern
 email: postmodern.mod3@gmail.com
-homepage: https://github.com/postmodern/ffi-bitfields#readme
+homepage: https://github.com/postmodern/ffi-bit_fields#readme
 
 dependencies:
   ffi: ~> 1.0

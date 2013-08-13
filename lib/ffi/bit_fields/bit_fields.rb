@@ -1,7 +1,7 @@
-require 'ffi/bitfields/field'
+require 'ffi/bit_fields/field'
 
 module FFI
-  module Bitfields
+  module BitFields
     #
     # Defines a new bit-field.
     #
@@ -15,7 +15,7 @@ module FFI
     # @return [Field]
     #   The new bit-field.
     #
-    def bitfield(name,fields,type=:uint)
+    def bit_field(name,fields,type=:uint)
       field = Field.new(type,fields)
 
       typedef(name,field)
