@@ -34,7 +34,7 @@ module FFI
       # @param [Symbol] type
       #   The underlying type.
       #
-      def initialize(flags,type)
+      def initialize(flags,type=:uint)
         @flags       = flags
         @bitmasks    = flags.invert
         @native_type = FFI.find_type(type)
