@@ -23,6 +23,6 @@ FFI plugin which adds support for bitmasked types (or flags) to FFI.
 
 ## Copyright
 
-Copyright (c) 2012 Hal Brodigan
+Copyright (c) 2012-2013 Hal Brodigan
 
 See {file:LICENSE.txt} for details.
