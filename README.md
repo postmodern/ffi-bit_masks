@@ -13,6 +13,12 @@ FFI plugin which adds support for bitmasked types (or flags) to FFI.
 
     require 'ffi/bit_masks'
 
+    module MyLibrary
+      extend FFI::Library
+
+      bit_mask :flags, {foo: 0x1, bar: 0x2, baz: 0x4}
+    end
+
 ## Requirements
 
 * [ffi](https://github.com/ffi/ffi#readme) ~> 1.0
