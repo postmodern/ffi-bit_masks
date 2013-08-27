@@ -1,5 +1,5 @@
 name: ffi-bit_masks
-summary: Adds support bit-masked types in FFI.
+summary: Adds support for bit-masked types in FFI.
 description:
   FFI plugin which adds support for bitmasked types (or flags) to FFI.
 
