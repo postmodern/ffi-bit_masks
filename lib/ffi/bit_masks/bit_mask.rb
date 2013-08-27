@@ -5,7 +5,7 @@ module FFI
       include DataConverter
 
       #
-      # Fields of the bit-field
+      # Fields of the bitmask.
       #
       # @return [Hash{Symbol => Integer}]
       #   The mapping of bit-flags to bitmasks.
@@ -13,7 +13,7 @@ module FFI
       attr_reader :flags
 
       #
-      # The bitmasks of the bit-field
+      # The bitmasks of the bitmask.
       #
       # @return [Hash{Integer => Symbol}]
       #   The mapping of bitmasks to bit-flags.
@@ -104,7 +104,7 @@ module FFI
           if value.respond_to?(:to_int)
             value.to_int
           else
-            raise(ArgumentError,"invalid bitfield value #{value.inspect}")
+            raise(ArgumentError,"invalid bitmask value #{value.inspect}")
           end
         end
       end
