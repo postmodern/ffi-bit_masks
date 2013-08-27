@@ -1,3 +1,5 @@
+require 'ffi'
+
 module FFI
   module BitMasks
     class BitMask
