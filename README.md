@@ -9,6 +9,11 @@
 
 FFI plugin which adds support for bitmasked types (or flags) to FFI.
 
+## Features
+
+* Can map a Hash of flags to their bitmask value.
+* Can map an Integer bitmask to a Hash of flags.
+
 ## Examples
 
     require 'ffi/bit_masks'
