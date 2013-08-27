@@ -2,6 +2,9 @@ require 'ffi/bit_masks/bit_mask'
 require 'ffi/bit_masks/version'
 
 module FFI
+  #
+  # Adds bitmask types to FFI libraries.
+  #
   module BitMasks
     #
     # Defines a new bitmask.

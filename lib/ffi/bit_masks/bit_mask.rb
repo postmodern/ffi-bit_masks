@@ -2,6 +2,9 @@ require 'ffi'
 
 module FFI
   module BitMasks
+    #
+    # The bitmask data converter.
+    #
     class BitMask
 
       include DataConverter
