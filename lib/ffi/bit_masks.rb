@@ -19,7 +19,7 @@ module FFI
     def bit_mask(name,flags,type=:uint)
       bit_mask = BitMask.new(flags,type)
 
-      typedef(name,bit_mask)
+      typedef(bit_mask,name)
       return bit_mask
     end
   end
