@@ -10,10 +10,10 @@ describe FFI::BitMasks do
     subject do
       mod = Module.new
       mod.extend FFI::Library
-      mod.extend described_class
+      mod.extend FFI::BitMasks
     end
 
-    let(:flags) { {foo: 0x1, bar: 0x2, baz: 0x4} }
+    let(:flags) { {:foo => 0x1, :bar => 0x2, :baz => 0x4} }
 
     it "should return a BitMask object" do
       subject.bit_mask(:flags,flags).flags.should == flags

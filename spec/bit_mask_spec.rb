@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'ffi/bit_masks/bit_mask'
 
 describe FFI::BitMasks::BitMask do
-  let(:flags) { {foo: 0x1, bar: 0x2, baz: 0x4} }
+  let(:flags) { {:foo => 0x1, :bar => 0x2, :baz => 0x4} }
 
   subject { described_class.new(flags) }
 
@@ -76,17 +76,17 @@ describe FFI::BitMasks::BitMask do
 
   describe "#to_native" do
     context "when given a Hash" do
+      let(:hash) { {:foo => true, :bar => true, :baz => false} }
+
       it "should bitwise or together the flag masks" do
-        subject.to_native({foo: true, bar: true, baz: false}).should == (
-          flags[:foo] | flags[:bar]
-        )
+        subject.to_native(hash).should == (flags[:foo] | flags[:bar])
       end
 
       context "when one of the keys does not correspond to a flag" do
+        let(:hash) { {:foo => true, :bug => true, :baz => true} }
+
         it "should ignore the key" do
-          subject.to_native({foo: true, bug: true, baz: true}).should == (
-            flags[:foo] | flags[:baz]
-          )
+          subject.to_native(hash).should == (flags[:foo] | flags[:baz])
         end
       end
     end
@@ -122,15 +122,23 @@ describe FFI::BitMasks::BitMask do
     let(:value) { flags[:foo] | flags[:baz] }
 
     it "should set the flags from the value" do
-      subject.from_native(value).should == {foo: true, bar: false, baz: true}
+      subject.from_native(value).should == {
+        :foo => true,
+        :bar => false,
+        :baz => true
+      }
     end
 
     context "when one flag is a combination of other flags" do
-      let(:flags) { {foo: 0x1, bar: 0x2, baz: 0x3} }
+      let(:flags) { {:foo => 0x1, :bar => 0x2, :baz => 0x3} }
       let(:value) { flags[:foo] | flags[:bar]      }
 
       it "should set all flags whose bitmasks are present" do
-        subject.from_native(value).should == {foo: true, bar: true, baz: true}
+        subject.from_native(value).should == {
+          :foo => true,
+          :bar => true,
+          :baz => true
+        }
       end
     end
 
@@ -138,7 +146,11 @@ describe FFI::BitMasks::BitMask do
       let(:value) { flags[:foo] | flags[:baz] | 0x8 | 0x10 }
 
       it "should ignore the unknown flags" do
-        subject.from_native(value).should == {foo: true, bar: false, baz: true}
+        subject.from_native(value).should == {
+          :foo => true,
+          :bar => false,
+          :baz => true
+        }
       end
     end
   end
