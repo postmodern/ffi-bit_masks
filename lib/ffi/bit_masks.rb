@@ -7,8 +7,10 @@ module FFI
     # Defines a new bitmask.
     #
     # @param [Symbol] name
+    #   The name of the bitmask.
     #
     # @param [Hash{Symbol => Integer}] flags
+    #   The flags and their masks.
     #
     # @param [Symbol] type
     #   The underlying type.

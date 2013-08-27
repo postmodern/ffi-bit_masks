@@ -7,7 +7,7 @@ module FFI
       include DataConverter
 
       #
-      # Fields of the bitmask.
+      # Flags of the bitmask.
       #
       # @return [Hash{Symbol => Integer}]
       #   The mapping of bit-flags to bitmasks.
@@ -15,7 +15,7 @@ module FFI
       attr_reader :flags
 
       #
-      # The bitmasks of the bitmask.
+      # The masks of the bitmask.
       #
       # @return [Hash{Integer => Symbol}]
       #   The mapping of bitmasks to bit-flags.
@@ -31,7 +31,10 @@ module FFI
       attr_reader :native_type
 
       #
+      # Initializes a new bitmask.
+      #
       # @param [Hash{Symbol => Integer}] flags
+      #   The flags and their masks.
       #
       # @param [Symbol] type
       #   The underlying type.
@@ -43,7 +46,10 @@ module FFI
       end
 
       #
+      # The Symbols that can be passed to the data converter.
+      #
       # @return [Array<Symbol>]
+      #   The Array of Symbols.
       #
       # @note For compatibility with `FFI::Enum`.
       #
@@ -52,7 +58,10 @@ module FFI
       end
 
       #
+      # The mapping of acceptable Symbols to their Integer equivalents.
+      #
       # @return [Hash{Symbol => Integer}]
+      #   The mapping of Symbols.
       #
       # @note For compatibility with `FFI::Enum`.
       #
@@ -60,21 +69,34 @@ module FFI
         @flags
       end
 
+      #
+      # @note For compatibility with `FFI::Enum`.
+      #
       alias to_h    symbol_map
+
+      #
+      # @note For compatibility with `FFI::Enum`.
+      #
       alias to_hash symbol_map
 
+      #
+      # Maps flags to masks and vice versa.
       #
       # @overload [](query)
       #
       #   @param [Symbol] query
+      #     The flag name.
       #
       #   @return [Integer]
+      #     The mask for the flag.
       #
       # @overload [](query)
       #
       #   @param [Integer] query
+      #     The mask.
       #
       #   @return [Symbol]
+      #     The flag for the mask.
       #
       def [](query)
         case query
@@ -89,9 +111,23 @@ module FFI
       alias find []
 
       #
-      # @param [Hash, #to_int] value
+      # Converts flags to a bitmask.
       #
-      # @return [Integer]
+      # @overload to_native(value)
+      #
+      #   @param [Hash{Symbol => Boolean}] value
+      #     The flags and their values.
+      #
+      #   @return [Integer]
+      #     The bitmask for the given flags.
+      #
+      # @overload to_native(value)
+      #
+      #   @param [#to_int] value
+      #     The raw bitmask.
+      #
+      #   @return [Integer]
+      #     The bitmask.
       #
       # @raise [ArgumentError]
       #
@@ -119,9 +155,13 @@ module FFI
       end
 
       #
-      # @param [Integer] value
+      # Converts a bitmask into multiple flags.
       #
-      # @return [Hash]
+      # @param [Integer] value
+      #   The raw bitmask.
+      #
+      # @return [Hash{Symbol => Boolean}]
+      #   The flags for the bitmask.
       #
       def from_native(value,ctx=nil)
         flags = {}
