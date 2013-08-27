@@ -147,7 +147,13 @@ module FFI
           return uint
         else
           if value.respond_to?(:to_int)
-            value.to_int
+            int = value.to_int
+
+            @bitmasks.each_key do |mask|
+              uint |= (int & mask)
+            end
+
+            return uint
           else
             raise(ArgumentError,"invalid bitmask value #{value.inspect}")
           end

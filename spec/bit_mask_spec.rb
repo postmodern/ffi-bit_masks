@@ -97,6 +97,16 @@ describe FFI::BitMasks::BitMask do
       it "should call #to_int" do
         subject.to_native(int).should == 0x3
       end
+
+      context "when given a bitmask that contains unknown masks" do
+        let(:int) { flags[:foo] | flags[:bar] | 0x8 | 0x10 }
+
+        it "should filter out the unknown masks" do
+          subject.to_native(int).should == (
+            flags[:foo] | flags[:bar]
+          )
+        end
+      end
     end
 
     context "when given an Object that does not respond to #to_int" do
