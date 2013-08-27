@@ -45,12 +45,16 @@ module FFI
       #
       # @return [Array<Symbol>]
       #
+      # @note For compatibility with `FFI::Enum`.
+      #
       def symbols
         @flags.keys
       end
 
       #
       # @return [Hash{Symbol => Integer}]
+      #
+      # @note For compatibility with `FFI::Enum`.
       #
       def symbol_map
         @flags
@@ -79,6 +83,9 @@ module FFI
         end
       end
 
+      #
+      # @note For compatibility with `FFI::Enum`.
+      #
       alias find []
 
       #
