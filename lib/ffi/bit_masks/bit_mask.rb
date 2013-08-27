@@ -8,15 +8,15 @@ module FFI
       # Fields of the bit-field
       #
       # @return [Hash{Symbol => Integer}]
-      #   The mapping of bit-fields to bitmasks.
+      #   The mapping of bit-flags to bitmasks.
       #
-      attr_reader :fields
+      attr_reader :flags
 
       #
       # The bitmasks of the bit-field
       #
       # @return [Hash{Integer => Symbol}]
-      #   The mapping of bitmasks to bit-fields.
+      #   The mapping of bitmasks to bit-flags.
       #   
       attr_reader :bitmasks
 
@@ -29,14 +29,14 @@ module FFI
       attr_reader :native_type
 
       #
-      # @param [Hash{Symbol => Integer}] fields
+      # @param [Hash{Symbol => Integer}] flags
       #
       # @param [Symbol] type
       #   The underlying type.
       #
-      def initialize(fields,type)
-        @fields      = fields
-        @bitmasks    = fields.invert
+      def initialize(flags,type)
+        @flags       = flags
+        @bitmasks    = flags.invert
         @native_type = FFI.find_type(type)
       end
 
@@ -44,14 +44,14 @@ module FFI
       # @return [Array<Symbol>]
       #
       def symbols
-        @fields.keys
+        @flags.keys
       end
 
       #
       # @return [Hash{Symbol => Integer}]
       #
       def symbol_map
-        @fields
+        @flags
       end
 
       alias to_h    symbol_map
@@ -72,7 +72,7 @@ module FFI
       #
       def [](query)
         case query
-        when Symbol  then @fields[query]
+        when Symbol  then @flags[query]
         when Integer then @bitmasks[query]
         end
       end
@@ -93,9 +93,9 @@ module FFI
         when Hash
           uint = 0
 
-          value.each do |field,value|
+          value.each do |flag,value|
             if value
-              uint |= @fields[field]
+              uint |= @flags[flag]
             end
           end
 
@@ -115,13 +115,13 @@ module FFI
       # @return [Hash]
       #
       def from_native(value,ctx=nil)
-        bitfield = {}
+        flags = {}
 
-        @fields.each do |name,bitmask|
-          bitfield[name] ||= ((value & bitmask) == bitmask)
+        @flags.each do |flag,bitmask|
+          flags[flag] ||= ((value & bitmask) == bitmask)
         end
 
-        return bitfield
+        return flags
       end
 
     end

@@ -8,7 +8,7 @@ module FFI
     #
     # @param [Symbol] name
     #
-    # @param [Hash{Symbol => Integer}] fields
+    # @param [Hash{Symbol => Integer}] flags
     #
     # @param [Symbol] type
     #   The underlying type.
@@ -16,8 +16,8 @@ module FFI
     # @return [BitMask]
     #   The new bitmask.
     #
-    def bit_mask(name,fields,type=:uint)
-      bit_mask = BitMask.new(type,fields)
+    def bit_mask(name,flags,type=:uint)
+      bit_mask = BitMask.new(type,flags)
 
       typedef(name,bit_mask)
       return bit_mask
