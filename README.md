@@ -1,17 +1,17 @@
-# ffi-bit_fields
+# ffi-bit_masks
 
-* [Homepage](https://github.com/postmodern/ffi-bit_fields#readme)
-* [Issues](https://github.com/postmodern/ffi-bit_fields/issues)
-* [Documentation](http://rubydoc.info/gems/ffi-bit_fields/frames)
+* [Homepage](https://github.com/postmodern/ffi-bit_masks#readme)
+* [Issues](https://github.com/postmodern/ffi-bit_masks/issues)
+* [Documentation](http://rubydoc.info/gems/ffi-bit_masks/frames)
 * [Email](mailto:postmodern.mod3 at gmail.com)
 
 ## Description
 
-FFI plugin which adds support for bit-wise fields (or flags) to FFI.
+FFI plugin which adds support for bitmasked types (or flags) to FFI.
 
 ## Examples
 
-    require 'ffi/bit_fields'
+    require 'ffi/bit_masks'
 
 ## Requirements
 
@@ -19,7 +19,7 @@ FFI plugin which adds support for bit-wise fields (or flags) to FFI.
 
 ## Install
 
-    $ gem install ffi-bit_fields
+    $ gem install ffi-bit_masks
 
 ## Copyright
 

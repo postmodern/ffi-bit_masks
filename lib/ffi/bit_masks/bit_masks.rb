@@ -1,7 +1,7 @@
-require 'ffi/bit_fields/field'
+require 'ffi/bit_masks/field'
 
 module FFI
-  module BitFields
+  module BitMasks
     #
     # Defines a new bit-field.
     #

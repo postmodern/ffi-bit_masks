@@ -1,6 +1,6 @@
 module FFI
-  module BitFields
-    class Field
+  module BitMasks
+    class BitMask
 
       include DataConverter
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'ffi/bit_fields'
+require 'ffi/bit_masks'
 
-describe FFI::BitFields do
+describe FFI::BitMasks do
   it "should have a VERSION constant" do
     subject.const_get('VERSION').should_not be_empty
   end
