@@ -66,6 +66,12 @@ describe FFI::BitMasks::BitMask do
         subject[flags[:bar]].should == :bar
       end
     end
+
+    context "otherwise" do
+      it "should return nil" do
+        subject[Object.new].should be_nil
+      end
+    end
   end
 
   describe "#to_native" do
@@ -74,6 +80,14 @@ describe FFI::BitMasks::BitMask do
         subject.to_native({foo: true, bar: true, baz: false}).should == (
           flags[:foo] | flags[:bar]
         )
+      end
+
+      context "when one of the keys does not correspond to a flag" do
+        it "should ignore the key" do
+          subject.to_native({foo: true, bug: true, baz: true}).should == (
+            flags[:foo] | flags[:baz]
+          )
+        end
       end
     end
 
@@ -97,8 +111,17 @@ describe FFI::BitMasks::BitMask do
   describe "#from_native" do
     let(:value) { flags[:foo] | flags[:baz] }
 
-    it "should extract the flags from the value" do
+    it "should set the flags from the value" do
       subject.from_native(value).should == {foo: true, bar: false, baz: true}
+    end
+
+    context "when one flag is a combination of other flags" do
+      let(:flags) { {foo: 0x1, bar: 0x2, baz: 0x3} }
+      let(:value) { flags[:foo] | flags[:bar]      }
+
+      it "should set all flags whose bitmasks are present" do
+        subject.from_native(value).should == {foo: true, bar: true, baz: true}
+      end
     end
 
     context "when given a value that contains unknown masks" do
