@@ -103,7 +103,7 @@ module FFI
           uint = 0
 
           value.each do |flag,value|
-            if value
+            if (@flags.has_key?(flag) && value)
               uint |= @flags[flag]
             end
           end
