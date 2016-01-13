@@ -15,3 +15,4 @@ development_dependencies:
   rspec: ~> 2.4
   rubygems-tasks: ~> 0.2
   yard: ~> 0.8
+  rake: ~> 10.4
