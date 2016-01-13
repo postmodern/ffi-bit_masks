@@ -10,66 +10,66 @@ describe FFI::BitMasks::BitMask do
     subject { described_class.new(flags) }
 
     it "should initialize the flags" do
-      subject.flags.should == flags
+      expect(subject.flags).to eq(flags)
     end
 
     it "should invert the flags into bitmasks" do
-      subject.bitmasks.should == flags.invert
+      expect(subject.bitmasks).to eq(flags.invert)
     end
 
     it "should default type to uint" do
-      subject.native_type.should == FFI::Type::UINT
+      expect(subject.native_type).to eq(FFI::Type::UINT)
     end
 
     context "when given a custom type" do
       subject { described_class.new(flags,:ushort) }
 
       it "should set native type" do
-        subject.native_type.should == FFI::Type::USHORT
+        expect(subject.native_type).to eq(FFI::Type::USHORT)
       end
     end
   end
 
   describe "#symbols" do
     it "should return the names of the flags" do
-      subject.symbols.should == flags.keys
+      expect(subject.symbols).to eq(flags.keys)
     end
   end
 
   describe "#symbol_map" do
     it "should return the flags" do
-      subject.symbol_map.should == flags
+      expect(subject.symbol_map).to eq(flags)
     end
   end
 
   describe "#to_h" do
     it "should return the flags" do
-      subject.to_h.should == flags
+      expect(subject.to_h).to eq(flags)
     end
   end
 
   describe "#to_hash" do
     it "should return the flags" do
-      subject.to_hash.should == flags
+      expect(subject.to_hash).to eq(flags)
     end
   end
 
   describe "#[]" do
     context "when given a Symbol" do
       it "should lookup the bitmask" do
-        subject[:bar].should == flags[:bar]
+        expect(subject[:bar]).to eq(flags[:bar])
       end
     end
 
     context "when given an Integer" do
       it "should lookup the flag" do
-        subject[flags[:bar]].should == :bar
+        expect(subject[flags[:bar]]).to eq(:bar)
       end
     end
 
     context "otherwise" do
       it "should return nil" do
-        subject[Object.new].should be_nil
+        expect(subject[Object.new]).to be_nil
       end
     end
   end
@@ -79,14 +79,14 @@ describe FFI::BitMasks::BitMask do
       let(:hash) { {:foo => true, :bar => true, :baz => false} }
 
       it "should bitwise or together the flag masks" do
-        subject.to_native(hash).should == (flags[:foo] | flags[:bar])
+        expect(subject.to_native(hash)).to eq(flags[:foo] | flags[:bar])
       end
 
       context "when one of the keys does not correspond to a flag" do
         let(:hash) { {:foo => true, :bug => true, :baz => true} }
 
         it "should ignore the key" do
-          subject.to_native(hash).should == (flags[:foo] | flags[:baz])
+          expect(subject.to_native(hash)).to eq(flags[:foo] | flags[:baz])
         end
       end
     end
@@ -95,14 +95,14 @@ describe FFI::BitMasks::BitMask do
       let(:int) { 0x3 }
 
       it "should call #to_int" do
-        subject.to_native(int).should == 0x3
+        expect(subject.to_native(int)).to eq(0x3)
       end
 
       context "when given a bitmask that contains unknown masks" do
         let(:int) { flags[:foo] | flags[:bar] | 0x8 | 0x10 }
 
         it "should filter out the unknown masks" do
-          subject.to_native(int).should == (
+          expect(subject.to_native(int)).to eq(
             flags[:foo] | flags[:bar]
           )
         end
@@ -111,9 +111,9 @@ describe FFI::BitMasks::BitMask do
 
     context "when given an Object that does not respond to #to_int" do
       it "should raise an ArgumentError" do
-        lambda {
+        expect {
           subject.to_native(Object.new)
-        }.should raise_error(ArgumentError)
+        }.to raise_error(ArgumentError)
       end
     end
   end
@@ -122,11 +122,11 @@ describe FFI::BitMasks::BitMask do
     let(:value) { flags[:foo] | flags[:baz] }
 
     it "should set the flags from the value" do
-      subject.from_native(value).should == {
+      expect(subject.from_native(value)).to eq({
         :foo => true,
         :bar => false,
         :baz => true
-      }
+      })
     end
 
     context "when one flag is a combination of other flags" do
@@ -134,11 +134,11 @@ describe FFI::BitMasks::BitMask do
       let(:value) { flags[:foo] | flags[:bar]      }
 
       it "should set all flags whose bitmasks are present" do
-        subject.from_native(value).should == {
+        expect(subject.from_native(value)).to eq({
           :foo => true,
           :bar => true,
           :baz => true
-        }
+        })
       end
     end
 
@@ -146,11 +146,11 @@ describe FFI::BitMasks::BitMask do
       let(:value) { flags[:foo] | flags[:baz] | 0x8 | 0x10 }
 
       it "should ignore the unknown flags" do
-        subject.from_native(value).should == {
+        expect(subject.from_native(value)).to eq({
           :foo => true,
           :bar => false,
           :baz => true
-        }
+        })
       end
     end
   end
