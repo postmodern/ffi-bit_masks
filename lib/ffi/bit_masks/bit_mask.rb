@@ -182,6 +182,9 @@ module FFI
         return flags
       end
 
+      def reference_required?
+        false
+      end
     end
   end
 end
